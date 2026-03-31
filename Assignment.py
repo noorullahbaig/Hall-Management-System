@@ -1,13 +1,19 @@
 def mainmenu():
 
     while True:
-        print("\nMain Menu:")
-        print("----------------")
-        inputlogin = input("Enter login mode (A for Admin, U for User): ")
-        if inputlogin == "A" or inputlogin == "a":
-            adminlogin()
-        elif inputlogin == "U" or inputlogin == "u":
-            userchoose()
+        try:
+            print("\nMain Menu:")
+            print("----------------")
+            inputlogin = input("Enter login mode (A for Admin, U for User): ")
+            if inputlogin == "A" or inputlogin == "a":
+                adminlogin()
+            elif inputlogin == "U" or inputlogin == "u":
+                userchoose()
+        except (EOFError, KeyboardInterrupt):
+            print("\nExiting Hall Management System.")
+            break
+        except Exception:
+            print("Invalid data entered!")
 
 
 def adminlogin():
@@ -19,11 +25,13 @@ def adminlogin():
     with open("adminusers.txt", 'r') as f:
         data = f.read().split("\n")
 
-    flag = False
     for count in range(0, len(data)):
         check = data[count].split(";")
+        if len(check) < 2:
+            continue
         if(inputUN == check[0] and inputPwd == check[1]):
             admin_menu()
+            return
     print("\nInvalid login details!\n")
 
 
@@ -86,7 +94,7 @@ def enterhallinfo():
     halldesc = input("Enter Hall decription: ")
     hallpax = input("Enter Hall pax: ")
     hallstatus = input("Enter Hall availability status Y/N: ")
-    hallprice = input("Enter Hall rate price per day: ")
+    hallprice = input("Enter Hall rate price per hour: ")
     with open("hallinfo.txt", "a") as f:
         f.write(hallid +";"+ halltype +";"+ halldesc +";"+ hallpax +";"+ hallstatus +";"+ hallprice + "\n")
     print("\nNew Hall data created!\n")
@@ -167,7 +175,7 @@ def edithallinfo():
         halldesc = input("Enter Hall decription: ")
         hallpax = input("Enter Hall pax: ")
         hallstatus = input("Enter Hall availability status Y/N: ")
-        hallprice = input("Enter Hall rate price per day: ")
+        hallprice = input("Enter Hall rate price per hour: ")
         with open("hallinfo.txt", "a") as f:
             f.write(edithallid +";"+ halltype +";"+ halldesc +";"+ hallpax +";"+ hallstatus +";"+ hallprice + "\n")
         print("\nHall Information edited successfully!\n")
@@ -203,7 +211,7 @@ def deletehallinfo():
         with open("hallinfo.txt", "a") as f:
             for count in range(0, len(fulldata)-1):
                 f.write(fulldata[count] + "\n")
-        print("\nHall information edited successfully!\n")
+        print("\nHall information deleted successfully!\n")
     else:
         print("\nHall ID does not exist!\n")
 
@@ -678,10 +686,13 @@ def userlogin():
 
         for count in range(0, len(data)):
             check = data[count].split(";")
+            if len(check) < 2:
+                continue
             if(inputUN == check[0] and inputPwd == check[1]):
                 user_menu()
+                return
         print("\nInvalid login!\n")
-        mainmenu()
+        return
 
 
 def user_menu():
@@ -885,6 +896,14 @@ def cancelbooking():
 
     print("\nBooking Cancellation")
     print("----------------")
+
+    with open("booking.txt", "r") as f:
+        fulldata = f.read().split("\n")
+        for count in range(0, len(fulldata)-1):
+            data = []
+            data = fulldata[count].split(";")
+            if data[0] == inputUN:
+                print("\nEvent Name:", data[1], "\nEvent Description:", data[2], "\nBooked Hall ID:", data[3], "\nEvent Pax:", data[4], "\nBooking Date:", data[5], "\nBooking Start Time:", data[6], "\nBooking End Time:", data[7], "\nBooking ID:", data[8],"\n")
 
     delbookingid = input("Enter the Booking ID of the booking you want to cancel: ")
     flag = False
