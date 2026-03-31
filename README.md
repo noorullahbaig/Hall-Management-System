@@ -1,29 +1,38 @@
 # Hall Management System
 
-Console-based Python application for managing halls, bookings, and user accounts using simple flat-file persistence. This project was built as an academic assignment to practice file handling, validation logic, and multi-role command-line workflows.
+## Overview
+
+Hall Management System is a Python command-line application for managing hall records, bookings, and user accounts. The project uses semicolon-delimited text files for persistence and keeps all workflows inside a single menu-driven script.
 
 ## Features
 
-- Hall information management for administrators
-- Booking creation, editing, deletion, and cancellation flows
-- User registration, login, and profile update flows
-- File-based persistence with lightweight text records
+- Administrator login with hall, booking, and user-management menus
+- Hall create, view, search, edit, and delete flows
+- User registration, login, profile update, and booking management flows
+- Booking edit and cancellation support
+- Flat-file persistence for halls, users, admins, and booking IDs
 
 ## Tech Stack
 
 - Python 3
-- Text-file storage (`*.txt`)
 - Command-line interface
+- Text-file storage
 
-## Project Files
+## Project Structure
 
-- `Assignment.py` - main application logic and menus
-- `hallinfo.txt` - hall records
-- `booking.txt` / `bookingid` - booking data and booking ID tracking
-- `users.txt` / `adminusers.txt` - user and admin account data
+- `Assignment.py` - main application logic and menu navigation
+- `hallinfo.txt` - hall master records
+- `booking.txt` - booking records
+- `bookingid` - booking ID counter
+- `users.txt` - user account data
+- `adminusers.txt` - administrator account data
 
-## Run
+## How to Run
+
+From the repository root:
 
 ```bash
 python3 Assignment.py
 ```
+
+The application expects the bundled text files to remain in the same directory as `Assignment.py`.
